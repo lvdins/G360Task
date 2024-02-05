@@ -2,27 +2,45 @@
 
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
-import Popup from "./Popup"; // Import the Modal component
-import Downloader from "./Downloader";
+import Popup from "./Popup";
+
+interface ImageData {
+  thumbnail: string;
+  original: string;
+}
+
+interface ApartmentData {
+  stills: ImageData[];
+  floor_plans: ImageData[];
+  name: string;
+}
 
 const CardGrid: React.FC = () => {
-  const [data, setData] = useState(null);
-  const [previewImages, setPreviewImages] = useState([]);
+  const [data, setData] = useState<ApartmentData | null>(null);
+  const [previewImages, setPreviewImages] = useState<ImageData[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        "https://giraffe360.com/gapi/share/Av7eeG1/"
-      );
-      const result = await response.json();
-      setData(result);
+      try {
+        const response = await fetch(
+          "https://giraffe360.com/gapi/share/Av7eeG1/"
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const result: ApartmentData = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error("Failed to fetch apartment data:", error);
+      }
     };
 
     fetchData();
   }, []);
 
-  const handlePreview = (images: any) => {
+  const handlePreview = (images: ImageData[]) => {
     setPreviewImages(images);
     setIsPopupOpen(true);
   };
@@ -35,64 +53,51 @@ const CardGrid: React.FC = () => {
     const urlToCopy = "https://tour.giraffe360.com/jules-crosnier/";
     navigator.clipboard
       .writeText(urlToCopy)
-      .then(() => console.log("Link copied to clipboard!"))
+      .then(() => {
+        console.log("Link copied to clipboard!");
+        setIsTooltipVisible(true); // Show the tooltip
+        setTimeout(() => {
+          setIsTooltipVisible(false);
+        }, 2000);
+      })
       .catch((err) => console.error("Failed to copy link:", err));
   };
 
-  const handleDownload = async (type: string) => {
-    try {
-      const response = await fetch(`/api/download?type=${type}`);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${type}.zip`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Failed to download files:", error);
-    }
-  };
-
   if (!data) {
-    return <div>Loading...</div>; // or some loading spinner
+    return <div></div>;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="container mx-auto p-14">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
         {/* Card for Virtual Tour */}
         <Card
           title="Virtual Tour"
-          imageUrl={data && data.stills && data.stills[1]?.thumbnail}
+          imageUrl={data.stills[1]?.thumbnail}
           linkUrl={"https://tour.giraffe360.com/jules-crosnier/"}
           buttonLabel="Copy Link"
           onButtonClick={handleVirtualTourClick}
-          onPreview={function (): void {
-            throw new Error("Function not implemented.");
-          }}
+          onPreview={() => handlePreview(data.stills)}
         />
 
         {/* Card for Floor Plans */}
         <Card
           title="Floor Plans"
           imageUrl={data.floor_plans[0].thumbnail}
-          buttonLabel="Download Floor Plans"
+          buttonLabel="Download"
           onPreview={() => handlePreview(data.floor_plans)}
           onButtonClick={() => handleDownload("floor_plans")}
+          fileCount={data.floor_plans.length}
         />
 
+        {/* Card for Stills */}
         <Card
           title="Stills"
-          imageUrl={data && data.stills && data.stills[0]?.thumbnail}
-          buttonLabel="Download Stills"
+          imageUrl={data.stills[0]?.thumbnail}
+          buttonLabel="Download"
           onPreview={() => handlePreview(data.stills)}
           onButtonClick={() => handleDownload("stills")}
+          fileCount={data.stills.length}
         />
       </div>
 
