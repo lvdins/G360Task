@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import Carousel from "./Carousel"; // Import the Carousel component
+import Carousel from "./Carousel";
 
 interface PopupProps {
   isOpen: boolean;
@@ -9,8 +9,7 @@ interface PopupProps {
 
 const Popup: React.FC<PopupProps> = ({ isOpen, onClose, images }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const popupContentRef = useRef<HTMLDivElement>(null); // Ref for the popup content
-
+  const popupContentRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (isOpen) {
       setShowPopup(true);
