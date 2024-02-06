@@ -105,14 +105,13 @@ const CardGrid: React.FC = () => {
     return (
       <div className="flex justify-center items-top h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-yellow-400 mt-20"></div>
-        {/* Increased negative margin */}
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-14">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
+    <div className="container mx-auto pt-4 px-14 pb-14">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 mt-[-20px]">
         <Card
           title="Virtual Tour"
           imageUrl={data.stills[1]?.thumbnail}

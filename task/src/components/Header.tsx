@@ -7,6 +7,7 @@ const Header = () => (
           width={165}
           height={35}
           alt="Logo"
+          className="ml-16"
         />
       </div>
     </div>

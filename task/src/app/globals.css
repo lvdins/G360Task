@@ -6,4 +6,5 @@ html,
 body {
   font-size: 14px;
   min-height: 100dvh;
+  background-color: #f5f7f9;
 }
