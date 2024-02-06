@@ -110,8 +110,8 @@ const CardGrid: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto pt-4 px-14 pb-14">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 mt-[-20px]">
+    <div className="container mx-auto p-14">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
         <Card
           title="Virtual Tour"
           imageUrl={data.stills[1]?.thumbnail}

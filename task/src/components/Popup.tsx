@@ -39,17 +39,19 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, images }) => {
 
   return (
     <div
-      className={`fixed inset-0 flex justify-center items-center z-50 ${
+      className={`fixed inset-0 p-4 flex justify-center items-center ${
         showPopup ? "opacity-100" : "opacity-0"
       } transition-opacity duration-300 ease-in-out`}
       style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
       onClick={handleBackdropClick}
     >
       <div
-        className={`relative rounded shadow-lg transition-all duration-300 ease-in-out transform ${
+        className={`relative rounded transition-all duration-300 ease-in-out transform ${
           showPopup ? "scale-100" : "scale-95"
-        }`}
-        style={{ width: "750px", height: "75%" }}
+        } 
+    w-11/12 sm:w-4/4 md:w-3/4 lg:w-1/2 xl:w-3/3
+    h-3/4 sm:h-3/4 md:h-3/4 lg:h-3/4 xl:h-3/4
+  `}
         ref={popupContentRef}
         onClick={(e) => e.stopPropagation()}
       >
