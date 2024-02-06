@@ -1,0 +1,32 @@
+import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+import "../app/globals.css";
+import Header from "../components/Header";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+export const metadata: Metadata = {
+  title: "Dashboard G360",
+  description: "Task",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={`${poppins.className} font-bold`}>
+        <Header />
+        <h1 className="px-5 my-12 text-3xl text-primary-bold xl:text-5xl lg:text-4xl md:text-3xl xl:px-8 lg:px-7 md:px-6 xl:my-20 lg:my-14 ml-28">
+          Genève - Appartement vide
+        </h1>
+        {children}
+      </body>
+    </html>
+  );
+}
