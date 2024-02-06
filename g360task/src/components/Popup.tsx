@@ -46,16 +46,15 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, images }) => {
       onClick={handleBackdropClick}
     >
       <div
-        className={`relative bg-white p-2 rounded shadow-lg transition-all duration-300 ease-in-out transform ${
+        className={`relative rounded shadow-lg transition-all duration-300 ease-in-out transform ${
           showPopup ? "scale-100" : "scale-95"
         }`}
-        style={{ width: "700px", height: "80%" }}
+        style={{ width: "750px", height: "75%" }}
         ref={popupContentRef}
         onClick={(e) => e.stopPropagation()}
       >
         <Carousel images={images} />
 
-        {/* Close button */}
         <button
           onClick={handleClose}
           className="absolute top-0 right-0 mt-2 mr-2 bg-transparent hover:bg-gray-200 text-gray-800 font-semibold py-2 px-2 rounded-full text-2xl"

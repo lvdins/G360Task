@@ -55,10 +55,6 @@ const CardGrid: React.FC = () => {
       .writeText(urlToCopy)
       .then(() => {
         console.log("Link copied to clipboard!");
-        setIsTooltipVisible(true); // Show the tooltip
-        setTimeout(() => {
-          setIsTooltipVisible(false);
-        }, 2000);
       })
       .catch((err) => console.error("Failed to copy link:", err));
   };
@@ -70,7 +66,6 @@ const CardGrid: React.FC = () => {
   return (
     <div className="container mx-auto p-14">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
-        {/* Card for Virtual Tour */}
         <Card
           title="Virtual Tour"
           imageUrl={data.stills[1]?.thumbnail}
@@ -80,7 +75,6 @@ const CardGrid: React.FC = () => {
           onPreview={() => handlePreview(data.stills)}
         />
 
-        {/* Card for Floor Plans */}
         <Card
           title="Floor Plans"
           imageUrl={data.floor_plans[0].thumbnail}
@@ -90,7 +84,6 @@ const CardGrid: React.FC = () => {
           fileCount={data.floor_plans.length}
         />
 
-        {/* Card for Stills */}
         <Card
           title="Stills"
           imageUrl={data.stills[0]?.thumbnail}
@@ -101,7 +94,6 @@ const CardGrid: React.FC = () => {
         />
       </div>
 
-      {/* Popup for image preview */}
       <Popup
         isOpen={isPopupOpen}
         onClose={handleClosePopup}

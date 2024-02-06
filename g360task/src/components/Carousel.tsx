@@ -39,22 +39,21 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
   }, [images]);
 
   if (!Array.isArray(images) || images.length <= 0 || !preloaded) {
-    return <div>Loading...</div>; // Or your custom loader here
+    return <div>Loading...</div>;
   }
 
   return (
     <section className="relative overflow-hidden">
-      {/* Carousel Content */}
       <div className="flex justify-center items-center">
         <button
           onClick={prevSlide}
-          className="absolute left-8 top-1/2 -translate-y-1/2 bg-yellow-400 bg-opacity-70 hover:bg-opacity-100 text-white text-2xl z-10 cursor-pointer select-none rounded-full h-12 w-12 flex items-center justify-center"
+          className="absolute left-8 top-1/2 -translate-y-1/2 bg-yellow-400 bg-opacity-100 hover:brightness-105 text-white text-2xl z-10 cursor-pointer select-none rounded-full h-12 w-12 flex items-center justify-center"
         >
           &lt;
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-8 top-1/2 -translate-y-1/2 bg-yellow-400 bg-opacity-70 hover:bg-opacity-100 text-white text-2xl z-10 cursor-pointer select-none rounded-full h-12 w-12 flex items-center justify-center"
+          className="absolute right-8 top-1/2 -translate-y-1/2 bg-yellow-400 bg-opacity-100 hover:brightness-105 text-white text-2xl z-10 cursor-pointer select-none rounded-full h-12 w-12 flex items-center justify-center"
         >
           &gt;
         </button>
@@ -73,10 +72,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
         </div>
       </div>
 
-      {/* Download Button */}
-      <div className="flex justify-center w-full py-4 bg-white">
-        {" "}
-        {/* bg-white or any other background */}
+      <div className="flex justify-center w-full py-4 bg-primary">
         <button
           onClick={handleDownload}
           className="px-4 py-2 bg-yellow-400 bg-opacity-100 hover:brightness-105 text-black rounded"
