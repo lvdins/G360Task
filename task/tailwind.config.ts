@@ -9,13 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#1a202c",
-        secondary: "#2d3748",
-        accent: "#e2e8f0",
-        highlight: "#edf2f7",
-        muted: "#718096",
-        dark: "#1a202c",
-        light: "#f7fafc",
+        primary: "#1a222e",
+        secondary: "#FFC600",
+        darkgrey: "#485363",
+        grey: "#D6D6D6",
         white: "#ffffff",
         black: "#000000",
       },
@@ -23,8 +20,8 @@ const config: Config = {
         inherit: "inherit",
       },
       animation: {
-        appear: "rise 0.5s ease-in-out",
-        fall: "fall 0.5s ease-in-out",
+        appear: "rise 1.0s ease-in-out",
+        fall: "fall 1.0s ease-in-out",
       },
       keyframes: {
         rise: {

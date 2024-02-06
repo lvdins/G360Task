@@ -1,9 +1,6 @@
-import path from "path";
-
-import { NextApiRequest, NextApiResponse } from "next";
-
 import getContentType from "@/utils/getContentType";
-
+import path from "path";
+import { NextApiRequest, NextApiResponse } from "next";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -17,12 +14,10 @@ export default async function handler(
     const reqImageUrl = req.query.url as string;
 
     if (!reqImageUrl) {
-      res
-        .status(400)
-        .json({
-          error: true,
-          msg: "Image URL was not provided as a query parameter",
-        });
+      res.status(400).json({
+        error: true,
+        msg: "Image URL was not provided as a query parameter",
+      });
       return;
     }
 
@@ -43,7 +38,6 @@ export default async function handler(
     );
     res.send(imageBuffer);
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(error);
     res.status(500).json({ error: "Internal server error. Try again later." });
   }

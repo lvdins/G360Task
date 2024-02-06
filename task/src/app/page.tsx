@@ -1,7 +1,10 @@
 import CardGrid from "@/components/CardGrid";
 
 const Home = () => {
-  return <CardGrid />;
+  return (
+    <>
+      <CardGrid />
+    </>
+  );
 };
-
 export default Home;

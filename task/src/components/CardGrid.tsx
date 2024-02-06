@@ -1,8 +1,9 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import Popup from "./Popup";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 interface ImageData {
   thumbnail: string;
@@ -19,7 +20,8 @@ const CardGrid: React.FC = () => {
   const [data, setData] = useState<ApartmentData | null>(null);
   const [previewImages, setPreviewImages] = useState<ImageData[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingStills, setIsLoadingStills] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +41,47 @@ const CardGrid: React.FC = () => {
 
     fetchData();
   }, []);
+  //
+  const handleDownloadStills = async () => {
+    setIsLoadingStills(true);
+    if (data) {
+      await downloadImages(data.stills, "stills");
+    }
+    setIsLoadingStills(false);
+  };
 
+  const handleDownloadFloorPlans = async () => {
+    setIsLoading(true);
+    if (data) {
+      await downloadImages(data.floor_plans, "floor_plans");
+    }
+    setIsLoading(false);
+  };
+
+  const downloadImages = async (images: ImageData[], prefix: string) => {
+    const zip = new JSZip();
+
+    const filePromises = images.map(async (image, index) => {
+      const response = await fetch(
+        `/api/download?url=${encodeURIComponent(image.original)}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to download image");
+      }
+
+      const blob = await response.blob();
+      zip.file(`${prefix}${index + 1}.jpg`, blob);
+    });
+
+    await Promise.all(filePromises);
+
+    const content = await zip.generateAsync({ type: "blob" });
+
+    saveAs(content, `${prefix}.zip`);
+  };
+
+  //
   const handlePreview = (images: ImageData[]) => {
     setPreviewImages(images);
     setIsPopupOpen(true);
@@ -60,7 +102,12 @@ const CardGrid: React.FC = () => {
   };
 
   if (!data) {
-    return <div></div>;
+    return (
+      <div className="flex justify-center items-top h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-yellow-400 mt-20"></div>
+        {/* Increased negative margin */}
+      </div>
+    );
   }
 
   return (
@@ -72,25 +119,27 @@ const CardGrid: React.FC = () => {
           linkUrl={"https://tour.giraffe360.com/jules-crosnier/"}
           buttonLabel="Copy Link"
           onButtonClick={handleVirtualTourClick}
-          onPreview={() => handlePreview(data.stills)}
-        />
-
-        <Card
-          title="Floor Plans"
-          imageUrl={data.floor_plans[0].thumbnail}
-          buttonLabel="Download"
-          onPreview={() => handlePreview(data.floor_plans)}
-          onButtonClick={() => handleDownload("floor_plans")}
-          fileCount={data.floor_plans.length}
+          onPreview={function (): void {
+            throw new Error("Function not implemented.");
+          }}
         />
 
         <Card
           title="Stills"
           imageUrl={data.stills[0]?.thumbnail}
-          buttonLabel="Download"
+          buttonLabel={isLoadingStills ? "Downloading..." : "Download"}
           onPreview={() => handlePreview(data.stills)}
-          onButtonClick={() => handleDownload("stills")}
+          onButtonClick={handleDownloadStills}
           fileCount={data.stills.length}
+        />
+
+        <Card
+          title="Floor Plans"
+          imageUrl={data.floor_plans[0]?.thumbnail}
+          buttonLabel={isLoading ? "Downloading..." : "Download"}
+          onPreview={() => handlePreview(data.floor_plans)}
+          onButtonClick={handleDownloadFloorPlans}
+          fileCount={data.floor_plans.length}
         />
       </div>
 

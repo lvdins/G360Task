@@ -1,7 +1,6 @@
 "use client";
-// components/Card.tsx
 import React, { useState } from "react";
-import Tooltip from "./Tooltip"; // Import the Tooltip component
+import Tooltip from "./Tooltip";
 
 interface CardProps {
   title: string;
@@ -10,7 +9,7 @@ interface CardProps {
   linkUrl?: string;
   buttonLabel?: string;
   onButtonClick?: () => void;
-  fileCount?: number; // Optional prop for the number of files
+  fileCount?: number;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -22,16 +21,15 @@ const Card: React.FC<CardProps> = ({
   onButtonClick,
   fileCount,
 }) => {
-  const [isTooltipVisible, setIsTooltipVisible] = useState(false); // Local state for tooltip visibility
-
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const handleVirtualTourClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (onButtonClick) {
       onButtonClick();
     }
-    setIsTooltipVisible(true); // Show the tooltip
+    setIsTooltipVisible(true);
     setTimeout(() => {
-      setIsTooltipVisible(false); // Hide the tooltip after 2 seconds
+      setIsTooltipVisible(false);
     }, 2000);
   };
 
@@ -43,7 +41,7 @@ const Card: React.FC<CardProps> = ({
   };
 
   return (
-    <div className="relative border border-gray-300 shadow-xl rounded-xl flex flex-col cursor-pointer transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
+    <div className="relative border border-grey shadow-xl rounded-xl flex flex-col cursor-pointer appear hover:scale-105 hover:shadow-lg">
       {linkUrl ? (
         <a href={linkUrl} target="_blank" rel="noopener noreferrer">
           <img
@@ -65,20 +63,19 @@ const Card: React.FC<CardProps> = ({
         <div className="flex-grow">
           <h2 className="text-lg font-bold mb-2">{title}</h2>
           {fileCount !== undefined && (
-            <p className="text-sm text-gray-600">{fileCount} photos</p>
+            <p className="text-sm text-black">{fileCount} photos</p>
           )}
         </div>
         {buttonLabel && onButtonClick && (
           <div className="relative flex justify-end">
             {" "}
-            {/* Make this div relative */}
             <button
               onClick={
                 title === "Virtual Tour"
                   ? handleVirtualTourClick
                   : onButtonClick
               }
-              className="bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded"
+              className="bg-secondary hover:bg-yellow-700 text-black py-2 px-4 rounded"
             >
               {buttonLabel}
             </button>
