@@ -7,6 +7,8 @@ First, run the development server:
 ```bash
 git clone https://github.com/lvdins/G360Task.git
 # then
+cd G360Task
+# then
 cd task
 # then
 npm install
