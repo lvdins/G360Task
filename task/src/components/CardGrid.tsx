@@ -4,17 +4,7 @@ import Card from "./Card";
 import Popup from "./Popup";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-
-interface ImageData {
-  thumbnail: string;
-  original: string;
-}
-
-interface ApartmentData {
-  stills: ImageData[];
-  floor_plans: ImageData[];
-  name: string;
-}
+import { ImageData, ApartmentData } from "../types/types";
 
 const CardGrid: React.FC = () => {
   const [data, setData] = useState<ApartmentData | null>(null);
@@ -110,8 +100,8 @@ const CardGrid: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-14">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
+    <div className="container mx-auto p-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-16">
         <Card
           title="Virtual Tour"
           imageUrl={data.stills[1]?.thumbnail}
